@@ -16,39 +16,30 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Arrays;
 
-@CrossOrigin(origins = "http://localhost:3000")
 @RestController
+@RequestMapping("/api")
+@CrossOrigin(origins = "http://localhost:3000")
 public class UserController {
 
-    @RequestMapping("/services/status")
-    public ResponseEntity<String> statusController() {
-        return new ResponseEntity<>("Service is up and running", HttpStatus.OK);
-    }
-
-    @GetMapping("/users/{userName}/values")
-    public ResponseEntity<String> getUserDetailsController(@PathVariable("userName") String userName) {
-        return new ResponseEntity<>("Welcome " + userName, HttpStatus.OK);
-    }
-
     @GetMapping("/users")
-    public ResponseEntity<ResponseData> getUserDetailController() {
+    public ResponseEntity<ResponseData> getAllUsers() {
 
         Users response1 = Users.UsersBuilder.anUsers()
-                        .withName("Punam")
-                        .withEmail("Punam@gmail.com")
-                        .withUsername("punam")
+                        .withName("user1")
+                        .withEmail("user1@gmail.com")
+                        .withUsername("user1")
                         .build();
 
         Users response2 = Users.UsersBuilder.anUsers()
-                        .withName("Tripti")
-                        .withEmail("Tripti@gmail.com")
-                        .withUsername("Tripti")
+                        .withName("user2")
+                        .withEmail("user2@gmail.com")
+                        .withUsername("user2")
                         .build();
 
         Users response3 = Users.UsersBuilder.anUsers()
-                        .withName("Rahul")
-                        .withEmail("Rahul@gmail.com")
-                        .withUsername("Rahul")
+                        .withName("user3")
+                        .withEmail("user3@gmail.com")
+                        .withUsername("user3")
                         .build();
 
         ResponseData data = ResponseData.ResponseDataBuilder.aResponseData()
@@ -57,7 +48,12 @@ public class UserController {
         return new ResponseEntity<>(data, HttpStatus.OK);
     }
 
-    @PostMapping("/users/")
+    @GetMapping("/users/{userId}")
+    public ResponseEntity<String> getUserById(@PathVariable("userId") String userName) {
+        return new ResponseEntity<>("Welcome " + userName, HttpStatus.OK);
+    }
+
+    @PostMapping("/users")
     public ResponseEntity<UserResponse> createUser(@RequestBody UserRequest userRequest) {
 
         UserResponse response = UserResponse.UserResponseBuilder.anUserResponse()
